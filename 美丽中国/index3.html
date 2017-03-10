@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="swiper.min.css"/>
+		<title></title>
+		<style type="text/css">
+		*{	
+				margin: 0;
+				padding: 0;
+			}
+			.swiper-container{
+				width: 100%;
+				transform: scale(1.27,1.27);
+			}
+		</style>
+		
+	</head>
+	<body>
+		<div class="swiper-container">
+		    <div class="swiper-wrapper">
+		    	<!--第一页的-->
+		        <div class="swiper-slide">1</div>
+		       <div class="swiper-slide">2</div>
+		      <div class="swiper-slide">3</div>
+		    </div>
+		</div>
+	</body>
+	<script type="text/javascript" src="swiper.min.js"></script>
+	<script type="text/javascript"> 
+		function movestart(){
+			var pages=document.querySelectorAll("#appear div");
+			for(var i=1;i<pages.length;i++){
+			pages[i].num=i;
+			pages[i].addEventListener("touchstart",function(event){
+				var ev=event||window.event;
+				x1=ev.touches[0].clientX;
+				y1=ev.touches[0].clientY;
+				index=this.num;
+//			console.log(x1);
+			},false);
+			pages[this.num].addEventListener("touchmove",function(event){
+				var ev=event||window.event;
+				x2=ev.touches[0].clientX;
+				y2=ev.touches[0].clientY;
+				ev.cancelBubble=true;
+				ev.preventDefault();
+				x3=parseInt((x1-x2)/5);
+			
+				if(x3>=0){
+					for(var k=1;k<3;k++){
+						pages[this.num-k+1].style.transformOrigin="bottom";
+						pages[this.num-k+1].style.transform="rotate("+(-x3*2)/k+"deg)";
+					}
+				}
+//				else{
+//					for(var k=1;k<3;k++){
+//						pages[this.num-k+1].style.transformOrigin="bottom";
+//						pages[this.num-k+1].style.transform="rotate("+(-x3/20)/k+"deg)";
+//					}
+//				}
+				
+			},false);
+			pages[this.num].addEventListener("touchend",function(event){
+					var ev=event||window.event;
+//						console.log(x3);
+						for(var w=1;w<3;w++){
+							pages[this.num-w+1].style.transformOrigin="bottom";
+							pages[this.num-w+1].style.transform="rotate("+0+"deg)";
+						}
+						//图片回来
+					if(x3<-30&&this.num<16){
+							direction11=1;
+//							console.log(direction11);
+					}
+					
+					
+					if(x3>30){
+//						console.log(this.num);
+						pages[this.num].remove();
+						line.style.width=bianhua*(this.num-1)+"px";
+//						console.log(this.num);
+						//location为系统关键字不能随便用，所以我用了location1;
+						location1.style.top=(0.3*screen.height+bianhua2*(17-this.num))+"px";
+						var pagess = document.querySelectorAll("#appear div");
+						for(var j=1;j<pagess.length;j++){
+							pagess[j].setAttribute("class","pages"+(this.num-j));	
+						}
+						movestart();
+					}
+				},false);
+		
+		}
+		}
+		movestart();//调用函数
+		if(direction11==1){
+//						console.log("aaa");
+						var div11=document.createElement("div");
+						div11.appendChild(imgs[15-index]);
+						appear.appendChild(div11);
+//						console.log(pages.length);
+						var pagess = document.querySelectorAll("#appear div");
+						
+						console.log(pagess.length);
+						for(var j=1;j<pagess.length;j++){
+							pagess[j].setAttribute("class","pages"+(pagess.length-j));	
+						}
+						movestart();
+						direction11=0;
+				}	
+	</script>
+</html>
